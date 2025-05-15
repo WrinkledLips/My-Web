@@ -1,71 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Clicker Game</title>
+  <meta charset="UTF-8" />
+  <title>Zen Clicker</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #e0f7fa;
+      color: #333;
       text-align: center;
-      margin-top: 50px;
-      background-color: #f0f0f0;
+      padding: 20px;
     }
     h1 {
-      font-size: 48px;
-      margin-bottom: 20px;
+      font-size: 3em;
+      margin-bottom: 10px;
     }
-    button {
-      padding: 15px 30px;
-      font-size: 20px;
-      margin: 10px;
+    #mainBtn {
+      background-color: #81d4fa;
+      color: #004d40;
+      font-size: 32px;
       border: none;
+      border-radius: 50%;
+      padding: 60px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      margin: 20px auto;
+      transition: background-color 0.2s ease;
+    }
+    #mainBtn:hover {
+      background-color: #4fc3f7;
+    }
+    #score {
+      font-size: 28px;
+      margin: 10px 0;
+    }
+    #status {
+      margin: 10px 0 30px;
+      font-size: 18px;
+    }
+    .shop {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+    .shop button {
+      background-color: #a7ffeb;
+      color: #00695c;
+      border: none;
+      padding: 15px 25px;
+      font-size: 18px;
       border-radius: 10px;
       cursor: pointer;
-      transition: 0.2s;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      width: 250px;
     }
-    #clickBtn {
-      background-color: #4CAF50;
-      color: white;
-    }
-    #clickBtn:hover {
-      background-color: #45a049;
-    }
-    .shop-btn {
-      background-color: #008CBA;
-      color: white;
-    }
-    .shop-btn:hover {
-      background-color: #007bb5;
+    .shop button:hover {
+      background-color: #64ffda;
     }
     #muteBtn {
-      background-color: #f44336;
+      margin-top: 30px;
+      background-color: #ff8a80;
       color: white;
     }
     #muteBtn:hover {
-      background-color: #d32f2f;
-    }
-    #score, #status {
-      font-size: 28px;
-      margin-top: 20px;
+      background-color: #ff5252;
     }
   </style>
 </head>
 <body>
-  <h1>Super Clicker</h1>
-
-  <button id="clickBtn">Click Me!</button>
+  <h1>Zen Clicker</h1>
   <div id="score">Score: 0</div>
+  <button id="mainBtn">+</button>
   <div id="status">Click Power: 1 | Auto-Clickers: 0</div>
 
-  <hr style="margin: 40px 0; width: 60%;">
-
-  <button class="shop-btn" id="upgradeBtn">Upgrade Click (+1 Power) – Cost: 10</button>
-  <button class="shop-btn" id="autoClickerBtn">Buy Auto-Clicker – Cost: 50</button>
-  <br>
-  <button id="muteBtn">Mute Music</button>
+  <div class="shop">
+    <button id="upgradeBtn">Upgrade Click (+1 Power) – Cost: 10</button>
+    <button id="autoClickerBtn">Buy Auto-Clicker – Cost: 50</button>
+    <button id="muteBtn">Mute Music</button>
+  </div>
 
   <audio id="bgMusic" loop autoplay>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/StreamBeats_by_Harris_Heller/White_Bat/StreamBeats_by_Harris_Heller_-_White_Bat_-_01_Late_Night_Call.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
@@ -75,17 +91,17 @@
     let autoClickers = 0;
     let musicMuted = false;
 
-    const scoreDisplay = document.getElementById("score");
-    const statusDisplay = document.getElementById("status");
+    const scoreEl = document.getElementById("score");
+    const statusEl = document.getElementById("status");
     const bgMusic = document.getElementById("bgMusic");
     const muteBtn = document.getElementById("muteBtn");
 
     function updateDisplay() {
-      scoreDisplay.textContent = "Score: " + score;
-      statusDisplay.textContent = `Click Power: ${clickPower} | Auto-Clickers: ${autoClickers}`;
+      scoreEl.textContent = "Score: " + score;
+      statusEl.textContent = `Click Power: ${clickPower} | Auto-Clickers: ${autoClickers}`;
     }
 
-    document.getElementById("clickBtn").addEventListener("click", () => {
+    document.getElementById("mainBtn").addEventListener("click", () => {
       score += clickPower;
       updateDisplay();
     });
@@ -116,7 +132,6 @@
       muteBtn.textContent = musicMuted ? "Unmute Music" : "Mute Music";
     });
 
-    // Auto-clicker loop
     setInterval(() => {
       if (autoClickers > 0) {
         score += autoClickers;
@@ -124,8 +139,8 @@
       }
     }, 1000);
 
-    // In case autoplay is blocked, attempt to play on user interaction
-    window.addEventListener('click', () => {
+    // Ensure autoplay starts on user interaction
+    window.addEventListener("click", () => {
       bgMusic.play().catch(() => {});
     }, { once: true });
   </script>
