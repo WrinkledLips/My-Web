@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Clicker Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #f0f0f0;
+    }
+    h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    #clickBtn {
+      background-color: #4CAF50;
+      color: white;
+    }
+    #clickBtn:hover {
+      background-color: #45a049;
+    }
+    .shop-btn {
+      background-color: #008CBA;
+      color: white;
+    }
+    .shop-btn:hover {
+      background-color: #007bb5;
+    }
+    #muteBtn {
+      background-color: #f44336;
+      color: white;
+    }
+    #muteBtn:hover {
+      background-color: #d32f2f;
+    }
+    #score, #status {
+      font-size: 28px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Super Clicker</h1>
+
+  <button id="clickBtn">Click Me!</button>
+  <div id="score">Score: 0</div>
+  <div id="status">Click Power: 1 | Auto-Clickers: 0</div>
+
+  <hr style="margin: 40px 0; width: 60%;">
+
+  <button class="shop-btn" id="upgradeBtn">Upgrade Click (+1 Power) – Cost: 10</button>
+  <button class="shop-btn" id="autoClickerBtn">Buy Auto-Clicker – Cost: 50</button>
+  <br>
+  <button id="muteBtn">Mute Music</button>
+
+  <audio id="bgMusic" loop autoplay>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    let score = 0;
+    let clickPower = 1;
+    let autoClickers = 0;
+    let musicMuted = false;
+
+    const scoreDisplay = document.getElementById("score");
+    const statusDisplay = document.getElementById("status");
+    const bgMusic = document.getElementById("bgMusic");
+    const muteBtn = document.getElementById("muteBtn");
+
+    function updateDisplay() {
+      scoreDisplay.textContent = "Score: " + score;
+      statusDisplay.textContent = `Click Power: ${clickPower} | Auto-Clickers: ${autoClickers}`;
+    }
+
+    document.getElementById("clickBtn").addEventListener("click", () => {
+      score += clickPower;
+      updateDisplay();
+    });
+
+    document.getElementById("upgradeBtn").addEventListener("click", () => {
+      if (score >= 10) {
+        score -= 10;
+        clickPower++;
+        updateDisplay();
+      } else {
+        alert("Not enough score for upgrade!");
+      }
+    });
+
+    document.getElementById("autoClickerBtn").addEventListener("click", () => {
+      if (score >= 50) {
+        score -= 50;
+        autoClickers++;
+        updateDisplay();
+      } else {
+        alert("Not enough score for auto-clicker!");
+      }
+    });
+
+    muteBtn.addEventListener("click", () => {
+      musicMuted = !musicMuted;
+      bgMusic.muted = musicMuted;
+      muteBtn.textContent = musicMuted ? "Unmute Music" : "Mute Music";
+    });
+
+    // Auto-clicker loop
+    setInterval(() => {
+      if (autoClickers > 0) {
+        score += autoClickers;
+        updateDisplay();
+      }
+    }, 1000);
+
+    // In case autoplay is blocked, attempt to play on user interaction
+    window.addEventListener('click', () => {
+      bgMusic.play().catch(() => {});
+    }, { once: true });
+  </script>
+</body>
+</html>
