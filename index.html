@@ -1,11 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My First Site</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Clicker Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+      background-color: #f0f0f0;
+    }
+    h1 {
+      font-size: 48px;
+    }
+    #clickBtn {
+      padding: 20px 40px;
+      font-size: 24px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    #clickBtn:hover {
+      background-color: #45a049;
+    }
+    #score {
+      font-size: 36px;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello from GitHub Pages!</h1>
-  <p>This site is free and hosted on GitHub.</p>
+  <h1>Clicker Game</h1>
+  <button id="clickBtn">Click Me!</button>
+  <div id="score">Score: 0</div>
+
+  <script>
+    let score = 0;
+    const scoreDisplay = document.getElementById("score");
+    const button = document.getElementById("clickBtn");
+
+    button.addEventListener("click", () => {
+      score++;
+      scoreDisplay.textContent = "Score: " + score;
+    });
+  </script>
 </body>
 </html>
